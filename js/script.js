@@ -1,20 +1,28 @@
+const body = document.querySelector("body")
+let time = document.querySelector('.time');
+let date = document.querySelector('.date');
+let greeting = document.querySelector('.greeting');
+const name = document.querySelector('.name');
+let randomNum = getRandomNum(1, 7);
+const prev = document.querySelector('.slide-prev');
+const next = document.querySelector('.slide-next');
+
 function getDate() {
   return new Date()
 }
 
+setBg();
+
 function showTime() {
-  const time = document.querySelector('.time');
   time.textContent = getDate().toLocaleTimeString();
-  const greeting = document.querySelector('.greeting');
-  greeting.textContent = `Good ${getTimeOfDay(getDate().getHours())}`;
   showDate();
+  showGreeting();
   setTimeout(showTime, 1000);
 }
 
-showTime()
+showTime();
 
 function showDate() {
-  const date = document.querySelector('.date');
   const options = {
     year: 'numeric',
     month: 'long',
@@ -23,7 +31,7 @@ function showDate() {
   date.textContent = getDate().toLocaleDateString('ru-RU', options);
 }
 
-
+// ------Time of day ------//
 function getTimeOfDay(hour) {
   switch (true) {
     case  hour >= 6 && hour < 12 :
@@ -37,12 +45,16 @@ function getTimeOfDay(hour) {
   }
 }
 
+function showGreeting() {
+  greeting.textContent = `Good ${ getTimeOfDay(getDate().getHours()) }`;
+}
 
-const name = document.querySelector('.name');
+// -----LocalStorage ----- //
 
 function setLocalStorage() {
   localStorage.setItem('name', name.value);
 }
+
 window.addEventListener('beforeunload', setLocalStorage)
 
 function getLocalStorage() {
@@ -53,3 +65,36 @@ function getLocalStorage() {
 
 window.addEventListener('load', getLocalStorage)
 
+// -----RandomNumber -----//
+function getRandomNum(min, max) {
+  return Math.round(Math.random() * ( max - min ) + min);
+}
+
+// ----Background Image -----//
+
+function setBg() {
+  const timeOfDay = getTimeOfDay(getDate().getHours());
+  body.style.backgroundImage =
+    `url(../assets/img/${ timeOfDay }/${ randomNum }.jpg)`;
+}
+
+function getSlideNext() {
+  setBg();
+  if (randomNum < 7) {
+    randomNum += 1;
+  } else {
+    randomNum = 1;
+  }
+}
+
+function getSlidePrev() {
+  setBg();
+  if (randomNum > 1) {
+    randomNum -= 1;
+  } else {
+    randomNum = 7;
+  }
+}
+
+prev.addEventListener('click', getSlidePrev);
+next.addEventListener('click', getSlideNext);
