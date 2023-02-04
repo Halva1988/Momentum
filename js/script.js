@@ -26,6 +26,7 @@ function showDate() {
   const options = {
     year: 'numeric',
     month: 'long',
+    weekday: 'long',
     day: 'numeric',
   }
   date.textContent = getDate().toLocaleDateString('ru-RU', options);
@@ -74,8 +75,13 @@ function getRandomNum(min, max) {
 
 function setBg() {
   const timeOfDay = getTimeOfDay(getDate().getHours());
-  body.style.backgroundImage =
-    `url(../assets/img/${ timeOfDay }/${ randomNum }.jpg)`;
+  const img = new Image();
+  img.src = '../assets/img/bg.webp';
+  img.onload = () => {
+    body.style.backgroundImage =
+      `url(../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
+  };
+
 }
 
 function getSlideNext() {
@@ -98,3 +104,5 @@ function getSlidePrev() {
 
 prev.addEventListener('click', getSlidePrev);
 next.addEventListener('click', getSlideNext);
+`
+https://api.openweathermap.org/data/2.5/weather?q=санкт+петербург&lang=ru&appid=287ed49e837589a1a976386e94f0f2c5&units=metric`
