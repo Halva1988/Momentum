@@ -75,8 +75,14 @@ function getRandomNum(min, max) {
 
 function setBg() {
   const timeOfDay = getTimeOfDay(getDate().getHours());
-  body.style.backgroundImage =
-    `url(../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
+  const img = new Image();
+  img.src = '../assets/img/bg.webp';
+  console.log(img.src);
+  img.onload = () => {
+    body.style.backgroundImage =
+      `url(../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
+  };
+
 }
 
 function getSlideNext() {
