@@ -76,11 +76,11 @@ function getRandomNum(min, max) {
 function setBg() {
   const timeOfDay = getTimeOfDay(getDate().getHours());
   const img = new Image();
-  img.src = '../assets/img/bg.webp';
+  img.src = './dist/../assets/img/bg.webp';
   console.log(img.src);
   img.onload = () => {
     body.style.backgroundImage =
-      `url(../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
+      `url(./dist/../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
   };
 
 }
