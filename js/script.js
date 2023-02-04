@@ -6,6 +6,12 @@ const name = document.querySelector('.name');
 let randomNum = getRandomNum(1, 7);
 const prev = document.querySelector('.slide-prev');
 const next = document.querySelector('.slide-next');
+const weatherCity = document.querySelector('.city');
+const weatherIcon = document.querySelector('.weather-icon');
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description');
+const wind = document.querySelector('.wind');
+const humidity = document.querySelector('.humidity');
 
 function getDate() {
   return new Date()
@@ -54,6 +60,7 @@ function showGreeting() {
 
 function setLocalStorage() {
   localStorage.setItem('name', name.value);
+  localStorage.setItem('weatherCity', weatherCity.value);
 }
 
 window.addEventListener('beforeunload', setLocalStorage)
@@ -62,9 +69,13 @@ function getLocalStorage() {
   if (localStorage.getItem('name')) {
     name.value = localStorage.getItem('name')
   }
+  if (localStorage.getItem('weatherCity')) {
+    weatherCity.value = localStorage.getItem('weatherCity')
+    getWeather()
+  }
 }
 
-window.addEventListener('load', getLocalStorage)
+window.addEventListener('load', getLocalStorage);
 
 // -----RandomNumber -----//
 function getRandomNum(min, max) {
@@ -77,13 +88,14 @@ function setBg() {
   const timeOfDay = getTimeOfDay(getDate().getHours());
   const img = new Image();
   img.src = './dist/../assets/img/bg.webp';
-  console.log(img.src);
   img.onload = () => {
     body.style.backgroundImage =
       `url(./dist/../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
   };
 
 }
+
+// ----Slider -----//
 
 function getSlideNext() {
   setBg();
@@ -105,5 +117,29 @@ function getSlidePrev() {
 
 prev.addEventListener('click', getSlidePrev);
 next.addEventListener('click', getSlideNext);
-`
-https://api.openweathermap.org/data/2.5/weather?q=санкт+петербург&lang=ru&appid=287ed49e837589a1a976386e94f0f2c5&units=metric`
+
+// -----Weather ----//
+
+async function getWeather() {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${weatherCity.value}&lang=ru&appid=287ed49e837589a1a976386e94f0f2c5&units=metric`)
+    .then(response => response.json())
+    .then(result => {
+      weatherIcon.className = 'weather-icon owf'
+      weatherIcon.classList.add(`owf-${ result.weather[0].id }`);
+      temperature.textContent = `${ Math.round(result.main.temp) }°C`;
+      weatherDescription.textContent = result.weather[0].description;
+      wind.textContent = `Скор. ветра: ${ result.wind.speed } m/s`;
+      humidity.textContent = `Влажность: ${ result.main.humidity }%`;
+    })
+    .catch(err => console.log(err));
+}
+
+function setCity(event) {
+  if (event.code === 'Enter') {
+    getWeather()
+  }
+}
+
+window.addEventListener('DOMContentLoaded', getWeather);
+weatherCity.addEventListener('keypress', setCity);
