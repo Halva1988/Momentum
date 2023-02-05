@@ -75,8 +75,6 @@ function getLocalStorage() {
   }
 }
 
-window.addEventListener('load', getLocalStorage);
-
 // -----RandomNumber -----//
 function getRandomNum(min, max) {
   return Math.round(Math.random() * ( max - min ) + min);
@@ -122,7 +120,8 @@ next.addEventListener('click', getSlideNext);
 
 async function getWeather() {
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${weatherCity.value}&lang=ru&appid=287ed49e837589a1a976386e94f0f2c5&units=metric`)
+    `https://api.openweathermap.org/data/2.5/weather?q=${ weatherCity.value.replace(
+      '-', ' ') }&lang=ru&appid=287ed49e837589a1a976386e94f0f2c5&units=metric`)
     .then(response => response.json())
     .then(result => {
       weatherIcon.className = 'weather-icon owf'
@@ -138,8 +137,9 @@ async function getWeather() {
 function setCity(event) {
   if (event.code === 'Enter') {
     getWeather()
+    weatherCity.blur()
   }
 }
 
-window.addEventListener('DOMContentLoaded', getWeather);
+document.addEventListener('DOMContentLoaded', getLocalStorage, getWeather);
 weatherCity.addEventListener('keypress', setCity);
