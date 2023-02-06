@@ -140,7 +140,8 @@ function getWeather() {
 }
 
 function setCity(event) {
-  if (event.code === 'Enter') {
+  if (event.code === 'Enter' || event.code === 13) {
+    console.log(event.code)
     getWeather()
     weatherCity.blur()
   }
