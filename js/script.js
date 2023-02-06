@@ -157,7 +157,7 @@ const nextQuote = document.querySelector('.change-quote');
 
 function getQuotes() {
   const quotesRandom = getRandomNum(0, 6);
-  fetch('../json/data.json')
+  fetch('./dist/../json/data.json')
     .then(respons => respons.json())
     .then(result => {
       quote.textContent = result[`${ quotesRandom }`].text;
