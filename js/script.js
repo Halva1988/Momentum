@@ -134,7 +134,10 @@ function getWeather() {
       wind.textContent = `Скор. ветра: ${ result.wind.speed } m/s`;
       humidity.textContent = `Влажность: ${ result.main.humidity }%`;
     })
-    .catch(err => console.log(err));
+    .catch(error => {
+      const errorMessage = document.querySelector('.weather-error');
+      errorMessage.textContent = error;
+    });
 }
 
 function setCity(event) {
@@ -159,10 +162,6 @@ function getQuotes() {
     .then(result => {
       quote.textContent = result[`${ quotesRandom }`].text;
       author.textContent = result[`${ quotesRandom }`].author;
-    })
-    .catch(error => {
-      const errorMessage = document.querySelector('.weather-error');
-      errorMessage.textContent = error;
     });
 }
 
