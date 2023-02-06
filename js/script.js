@@ -135,8 +135,7 @@ function getWeather() {
       humidity.textContent = `Влажность: ${ result.main.humidity }%`;
     })
     .catch(error => {
-      const errorMessage = document.querySelector('.weather-error');
-      errorMessage.textContent = error;
+      console.log(error);
     });
 }
 
