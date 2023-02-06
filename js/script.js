@@ -140,14 +140,20 @@ function getWeather() {
 }
 
 function setCity(event) {
-  if (event.keyCode === 13 || event.code === 'Enter') {
-    getWeather()
-    weatherCity.blur()
+  if (event.code === 'Enter') {
+    getWeather();
+    weatherCity.blur();
   }
+}
+
+function setCityFocusOut() {
+  getWeather();
+  weatherCity.blur();
 }
 
 document.addEventListener('DOMContentLoaded', getLocalStorage, getWeather);
 weatherCity.addEventListener('keypress', setCity);
+weatherCity.addEventListener('focusout', setCityFocusOut);
 
 // ----Quotes -----//
 const quote = document.querySelector('.quote');
