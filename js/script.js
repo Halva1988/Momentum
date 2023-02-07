@@ -20,8 +20,6 @@ function getDate() {
   return new Date()
 }
 
-setBg();
-
 function showTime() {
   time.textContent = getDate().toLocaleTimeString();
   showDate();
@@ -85,35 +83,61 @@ function getRandomNum(min, max) {
 
 // ----Background Image -----//
 
-function setBg() {
-  const timeOfDay = getTimeOfDay(getDate().getHours());
-  const img = new Image();
-  img.src = './dist/../assets/img/bg.webp';
-  img.onload = () => {
-    body.style.backgroundImage =
-      `url(./dist/../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
-  };
+// function setBg() {
+//   const timeOfDay = getTimeOfDay(getDate().getHours());
+// const img = new Image();
+// img.src = './dist/../assets/img/bg.webp';
+// img.onload = () => {
+//     body.style.backgroundImage =
+//       `url(./dist/../assets/img/${ timeOfDay }/${ randomNum }.webp)`;
+//   };
+//
+// }
+// setBg();
 
+let linkPrevImg;
+let linkImg
+
+function getLinkToImg() {
+  const timeOfDay = getTimeOfDay(getDate().getHours());
+  if (linkImg) {
+    linkPrevImg = linkImg;
+  }
+  fetch(
+    `https://api.unsplash.com/photos/random?query=${ timeOfDay }&client_id=ZG90PLEE98LxvENEMAkiS9KV0l_1WXinktMxBZ2n-vQ`)
+    .then(response => response.json())
+    .then(result => {
+      body.style.backgroundImage = `url(${ result.urls.regular })`;
+      linkImg = result.urls.regular;
+    })
 }
+
+getLinkToImg()
 
 // ----Slider -----//
 
 function getSlideNext() {
-  setBg();
-  if (randomNum < 7) {
-    randomNum += 1;
-  } else {
-    randomNum = 1;
-  }
+  getLinkToImg();
+  // if (randomNum < 7) {
+  //   randomNum += 1;
+  // } else {
+  //   randomNum = 1;
+  // }
 }
 
 function getSlidePrev() {
-  setBg();
-  if (randomNum > 1) {
-    randomNum -= 1;
-  } else {
-    randomNum = 7;
+  if (linkPrevImg) {
+    body.style.backgroundImage = `url(${ linkPrevImg })`;
+    return linkPrevImg = '';
   }
+  getLinkToImg();
+
+  // getLinkToImg();
+  // if (randomNum > 1) {
+  //   randomNum -= 1;
+  // } else {
+  //   randomNum = 7;
+  // }
 }
 
 prev.addEventListener('click', getSlidePrev);
