@@ -21,7 +21,9 @@
   <div class="weather">
     <input type="text" class="city" placeholder="[Enter City]"/>
     <i class="weather-icon owf"></i>
-    <div class="weather-error"></div>
+    <div class="weather-error">
+      Не могу найти такой город.
+    </div>
     <div class="description-container">
       <span class="temperature"></span>
       <span class="weather-description"></span>
@@ -31,6 +33,10 @@
   </div>
 </header>
 <main class="main">
+  <div class="limitRequests">
+    <h1>Исчерпан лимит в 50 запросов в час. <br>
+    Пожалуйста, подождите следующего часа.</h1>
+  </div>
   <div class="slider-icons">
     <button class="slide-prev slider-icon"></button>
     <button class="slide-next slider-icon"></button>
