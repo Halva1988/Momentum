@@ -1,5 +1,5 @@
 import showTime from "./showTime.js";
-import { getLinkToImg, getSlideNext, getSlidePrev } from "./background.js";
+import { getLinkToImg, getSlidePrev } from "./background.js";
 import { getWeather, setCity, setCityFocusOut, weatherCity } from "./weather.js";
 import { getQuotes, nextQuote } from "./quotes.js";
 import { playPrev, playNext } from "./player.js";
@@ -22,7 +22,7 @@ getLinkToImg()
 const prev = document.querySelector('.slide-prev');
 const next = document.querySelector('.slide-next');
 prev.addEventListener('click', getSlidePrev);
-next.addEventListener('click', getSlideNext);
+next.addEventListener('click', getLinkToImg);
 
 // -----Weather ----//
 
